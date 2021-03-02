@@ -1,1 +1,1 @@
-from .parser_weather import get_content, get_html
+from .parser_weather import get_today_content, get_html

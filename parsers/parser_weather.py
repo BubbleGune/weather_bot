@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 HOST = "https://www.gismeteo.ru/"
-URL = "https://www.gismeteo.ru/weather-moscow-4368/"
+URL = "https://www.gismeteo.ru/weather-moscow-4368/now/"
 URL_MONTH = "https://www.gismeteo.ru/weather-moscow-4368/month/"
 HEADERS = {
     "accept-encoding": "gzip, deflate, br",
@@ -27,8 +27,8 @@ def get_today_content(html) -> list:
     for item in items:
         cards.append(
             {
-                "date": item.find("div", class_="date").get_text(strip=True),
-                "weather": item.find("span", class_="unit").get_text(strip=True),
+                "date": item.find("div", class_="tab-content").find(class_="date").get_text(strip=True),
+                "weather": item.find("span", class_="unit").get_text(strip=True)
             }
         )
     return cards
@@ -44,9 +44,21 @@ def parser():
 
 def get_month(html) -> list:
     soup = BeautifulSoup(html, "html.parser")
+    first_day_month = soup.find_all("div", class_="tooltip cell past")
     first_two_week = soup.find_all("div", class_="tooltip cell _hover")
     last_two_week = soup.find_all("div", class_="tooltip cell")
     array = []
+
+    for item in first_day_month:
+        array.append(
+            {
+                "date": item.find("div", class_="date").find("span").get_text(strip=True),
+                "weather": item.find("div", class_="temp_max js_meas_container").find(
+                    class_="value unit unit_temperature_c").get_text(strip=True),
+                "night": item.find("div", class_="temp_min js_meas_container").find(
+                    class_="value unit unit_temperature_c").get_text(strip=True)
+            }
+        )
 
     for item in first_two_week:
         array.append(
@@ -73,5 +85,5 @@ def get_month(html) -> list:
 # print(get_month(html.text)[2])
 # [0]["date"][0:1]
 
-html_ = get_html(URL_MONTH)
-print(get_month(html_.text))
+html_ = get_html(URL)
+print(get_today_content(html_.text))

@@ -1,7 +1,6 @@
 from aiogram.types import Message
 from loader import dp
-from parsers import Moscow, URL
-from arrays import weather_month_list
+from arrays import weather_month_list, weather_today_list
 
 
 @dp.message_handler(commands=["start", "help"])
@@ -14,14 +13,9 @@ async def send_a_greeting(message: Message):
 
 @dp.message_handler(commands=["today"])
 async def send_today(message: Message):
-    today = Moscow()
-    html = today.get_html(URL)
-    await message.answer(text=f"{today.get_today_content(html.text)[0]['date']}: "
-                              f"{today.get_today_content(html.text)[0]['weather']}\n"
-                              f"Сегодня в {today.get_today_content(html.text)[1]['date']}: "
-                              f"{today.get_today_content(html.text)[1]['weather']}\n"
-                              f"А уже завтра в {today.get_today_content(html.text)[1]['date']}: "
-                              f"Будет {today.get_today_content(html.text)[1]['weather']}")
+    await message.answer(text=f"{weather_today_list[0]}\n"
+                              f"{weather_today_list[1]}\n"
+                              f"{weather_today_list[2]}\n")
 
 
 @dp.message_handler(commands=["month"])

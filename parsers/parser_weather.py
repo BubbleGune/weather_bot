@@ -71,11 +71,3 @@ class Moscow:
                 }
             )
         return array
-
-
-# html = get_html(URL)
-# print(get_month(html.text)[2])
-
-moscow = Moscow()
-html_ = moscow.get_html(URL)
-print(moscow.get_today_content(html_.text))

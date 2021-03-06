@@ -1,24 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-# from keyboards.inline.calback_datas import buy_callback
-
 from config import URL_APPLE, URL_PEAR, URL_GOOGLE
 
-"""
-choice = InlineKeyboardMarkup(
-    inline_keyboard=[
-        [
-            InlineKeyboardButton(text="Купить грушу", callback_data=buy_callback.new(
-                item_name="pear", quantity=1
-            )),
-            InlineKeyboardButton(text="Купить не грушу", callback_data="buy:apple:5"),
-        ],
-        [
-            InlineKeyboardButton(text="Отмена", callback_data="cancel")
-        ]
-    ]
-)
-"""
 
 choice = InlineKeyboardMarkup(row_width=2)
 
